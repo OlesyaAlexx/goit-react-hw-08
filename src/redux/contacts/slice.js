@@ -61,18 +61,6 @@ const slice = createSlice({
   },
 });
 
-export const selectContacts = (state) => state.contacts.items;
-export const selectIsLoading = (state) => state.contacts.loading;
-export const selectIsError = (state) => state.contacts.error;
-
-export const selectFilteredContacts = createSelector(
-  [selectContacts, (state) => state.filters.name], //повертається масив контактів та використовується анонімна функція, яка повертає значення фільтру.
-  (contacts, filter) => {
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    ); //Ця функція фільтрує контакти, і  тільки ті, які включають filter в своєму імені
-  }
-);
 export const contactReducer = slice.reducer;
 
 export default contactReducer;
