@@ -5,9 +5,9 @@ export const goitAPI = axios.create({
 });
 
 export const setToken = (token) => {
-  goitApi.defaults.headers.common.Authorization = `Bearer ${token}`;
+  goitAPI.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 export const clearToken = () => {
-  goitApi.defaults.headers.common.Authorization = ``;
+  goitAPI.defaults.headers.common.Authorization = ``;
 };

@@ -2,10 +2,9 @@
   font-family: Inter, system-ui, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: #000;
-  background-color: #fff;
+  /* background-color: #c7c4c4; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,7 +13,13 @@
 }
 body {
   font-family: sans-serif;
+  height: 100%;
+  margin: 0;
   line-height: 1.5;
+  background-image: linear-gradient(to top, #274443, #9cbbc0);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 h1,
@@ -38,3 +43,7 @@ img {
   display: block;
   max-width: 100%;
 }
+
+/* html {
+  height: 100%; 
+} */

@@ -1,14 +1,15 @@
 import { clearToken, goitAPI, setToken } from "../../config/goitAPI";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const registerThunk = createAsyncThunk(
   "auth/register",
   async (credentials, thunkAPI) => {
     try {
-      //Запит до сервера:
       const { data } = await goitAPI.post("users/signup", credentials);
       setToken(data.token);
       return data;
     } catch (error) {
+      console.error("Error during registration:", error.response?.data);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -19,7 +20,7 @@ export const loginThunk = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       //Запит до сервера:
-      const { data } = await goitAPI.post("user/login", credentials);
+      const { data } = await goitAPI.post("users/login", credentials);
       setToken(data.token);
       return data;
     } catch (error) {

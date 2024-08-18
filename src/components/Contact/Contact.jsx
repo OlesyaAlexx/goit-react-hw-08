@@ -3,12 +3,20 @@ import styles from "./Contact.module.css";
 import { FaPhone } from "react-icons/fa6";
 import { RiContactsFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import { deleteContactThunk } from "../../redux/contactsOps";
+import { deleteContactThunk } from "../../redux/contacts/operations";
+import Modal from "../Modal/Modal";
+import { useState } from "react";
 
 // Функція для створення розмітки компонента
 const Contact = ({ contact }) => {
   //Використовуємо dispatch для відправлення екшену для видалення контакту
   const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDelete = () => {
+    dispatch(deleteContactThunk(contact.id));
+    setIsModalOpen(false);
+  };
 
   return (
     <div className={styles.containerContact}>
@@ -24,10 +32,15 @@ const Contact = ({ contact }) => {
       </div>
       <button
         className={styles.button}
-        onClick={() => dispatch(deleteContactThunk(contact.id))}//При кліку видається контакт
+        onClick={() => setIsModalOpen(true)} // Відкрити модальне вікно
       >
         Delete
       </button>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)} // Закрити модальне вікно
+        onConfirm={handleDelete} // Підтвердити видалення
+      />
     </div>
   );
 };
