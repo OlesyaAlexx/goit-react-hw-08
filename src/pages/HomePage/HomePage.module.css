@@ -14,8 +14,9 @@
 .box {
   display: flex;
   justify-content: space-between;
-  margin-top: 10%;
+  margin-top: 7%;
   padding-bottom: 30%;
+  height: 100%;
 }
 
 .textContainer {
@@ -47,6 +48,7 @@
 
   .text {
     font-size: 16px;
+    text-align: center;
   }
 
   .imageContainer {
@@ -75,6 +77,7 @@
 
   .text {
     font-size: 16px;
+    text-align: center;
   }
 
   .imageContainer {

@@ -13,6 +13,7 @@ body {
   font-family: sans-serif;
   height: 100%;
   margin: 0;
+  padding: 0;
   line-height: 1.5;
   background-image: linear-gradient(to top, #274443, #9cbbc0);
   background-size: cover;
@@ -42,6 +43,8 @@ img {
   max-width: 100%;
 }
 
-/* html {
-  height: 100%; 
-} */
+html {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}

@@ -9,6 +9,14 @@
   max-width: 400px;
   margin: 0 auto;
   box-shadow: 4px 4px 4px 4px rgb(50, 118, 121);
+  /*  align-items: center; */
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
 }
 
 input {
@@ -16,6 +24,8 @@ input {
   border: 1px solid cadetblue;
   border-radius: 4px;
   transition: border-color 0.3s ease;
+  width: 100%;
+  /*  max-width: 300px;  */
 }
 
 input:focus {
@@ -26,6 +36,7 @@ input:focus {
 .error {
   color: rgb(236, 84, 84);
   font-weight: bold;
+  align-items: center;
 }
 
 .btn {

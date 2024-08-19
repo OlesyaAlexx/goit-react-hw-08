@@ -19,7 +19,7 @@ const ContactList = () => {
   //Якщо filteredContacts або його довжина дорівнює 0,
   // то відображається повідомлення про те, що контакти відсутні.
   if (!filteredContacts || filteredContacts.length === 0) {
-    return <p>No contacts available</p>;
+    return <p className={styles.text}>No contacts available</p>;
   }
 
   if (isLoading) {

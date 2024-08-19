@@ -58,5 +58,9 @@
 
   .link {
     font-size: 20px;
+    color: #37a099;
+    -webkit-text-shadow: 2px 2px 2px #000;
+    -moz-text-shadow: 2px 2px 2px #000;
+    text-shadow: 2px 2px 2px #0c0c0c;
   }
 }
