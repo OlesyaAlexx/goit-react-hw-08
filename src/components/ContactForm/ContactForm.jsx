@@ -2,39 +2,45 @@ import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import style from "./ContactForm.module.css";
 import { useDispatch } from "react-redux";
-import { addContactThunk } from "../../redux/contacts/operations";
+import {
+  addContactThunk,
+  updateContactThunk,
+} from "../../redux/contacts/operations";
 
-// Функція ContactForm для додавання нового контакту
-const ContactForm = () => {
-  //Використовуємо dispatch для відправлення екшену для додавання контакту
+const ContactForm = ({ initialValues, onSubmit }) => {
   const dispatch = useDispatch();
-  const initialValues = { name: "", number: "" };
-  // Функція -обробник відправки форми для додавання контакту
+
   const handleSubmit = (values, options) => {
-    dispatch(
-      addContactThunk({
-        name: values.name,
-        number: values.number,
-      })
-    );
-    // Скидаємо форму після відправки
+    if (initialValues.id) {
+        dispatch(
+        updateContactThunk({
+          contactId: initialValues.id,
+          contactData: {
+            name: values.name,
+            number: values.number,
+            // Входять лише ті поля, які вимагаються API
+          },
+        })
+      );
+    } else {
+      dispatch(addContactThunk(values));
+    }
     options.resetForm();
+    onSubmit();
   };
-  // Схема валідації для форми за допомогою Yup
   const ContactSchema = Yup.object().shape({
     name: Yup.string()
-      .min(3, "To Short!")
-      .max(50, "To Long!")
+      .min(3, "Too Short!")
+      .max(50, "Too Long!")
       .required("Required!"),
     number: Yup.string()
       .matches(/^[0-9]+(-[0-9]+)*$/, "Invalid format")
-      .min(3, "To Short!")
-      .max(50, "To Long!")
+      .min(3, "Too Short!")
+      .max(50, "Too Long!")
       .required("Required!"),
   });
 
   return (
-    // Налаштування Formik з початковими значеннями, обробником відправки та схемою валідації
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}

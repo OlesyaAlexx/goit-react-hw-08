@@ -36,3 +36,33 @@ export const deleteContactThunk = createAsyncThunk(
     }
   }
 );
+
+export const updateContactThunk = createAsyncThunk(
+  "contacts/updateContact",
+  async ({ contactId, contactData }, thunkAPI) => {
+    try {
+      // Отримання токену з локального стану або куки
+      const state = thunkAPI.getState();
+      const token = state.auth.token; // або звідки ви отримуєте токен
+
+      const { data } = await goitAPI.patch(
+        `/contacts/${contactId}`,
+        contactData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      console.error("Error updating contact:", {
+        message: error.message,
+        response: error.response ? error.response.data : "No response data",
+      });
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);

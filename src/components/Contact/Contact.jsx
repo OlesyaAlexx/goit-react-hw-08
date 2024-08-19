@@ -1,46 +1,67 @@
-//Імпортуємо іконки з бібліотеки react-icons для використання у компоненті.
-import styles from "./Contact.module.css";
+import style from "./Contact.module.css";
 import { FaPhone } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
 import { RiContactsFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { deleteContactThunk } from "../../redux/contacts/operations";
 import Modal from "../Modal/Modal";
 import { useState } from "react";
+import ContactForm from "../ContactForm/ContactForm";
 
-// Функція для створення розмітки компонента
-const Contact = ({ contact }) => {
-  //Використовуємо dispatch для відправлення екшену для видалення контакту
+const Contact = ({ contact, onEditClick }) => {
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handleDelete = () => {
     dispatch(deleteContactThunk(contact.id));
-    setIsModalOpen(false);
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleEdit = () => {
+    onEditClick(contact);
+    setIsEditModalOpen(false);
   };
 
   return (
-    <div className={styles.containerContact}>
-      <div className={styles.info}>
+    <div className={style.containerContact}>
+      <div className={style.info}>
         <p>
-          <RiContactsFill className={styles.icon} />
+          <RiContactsFill className={style.icon} />
           {contact.name}
         </p>
         <p>
-          <FaPhone className={styles.icon} />
+          <FaPhone className={style.icon} />
           {contact.number}
         </p>
       </div>
-      <button
-        className={styles.button}
-        onClick={() => setIsModalOpen(true)} // Відкрити модальне вікно
-      >
-        Delete
-      </button>
+      <div className={style.buttonCase}>
+        <button
+          className={style.button}
+          onClick={() => setIsDeleteModalOpen(true)}
+        >
+          Delete
+        </button>
+        <button
+          className={style.buttonEdit}
+          onClick={() => setIsEditModalOpen(true)}
+        >
+          <FaEdit className={style.icon} />
+          Edit
+        </button>
+      </div>
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)} // Закрити модальне вікно
-        onConfirm={handleDelete} // Підтвердити видалення
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDelete}
       />
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+        <ContactForm
+          initialValues={contact}
+          onSubmit={handleEdit}
+          onCancel={() => setIsEditModalOpen(false)}
+        />
+      </Modal>
     </div>
   );
 };

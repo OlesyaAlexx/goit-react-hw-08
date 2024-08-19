@@ -4,6 +4,7 @@ import {
   addContactThunk,
   deleteContactThunk,
   fetchContactsThunk,
+  updateContactThunk,
 } from "./operations.js";
 
 const initialState = {
@@ -25,6 +26,14 @@ const slice = createSlice({
       })
       .addCase(deleteContactThunk.fulfilled, (state, action) => {
         state.items = state.items.filter((item) => item.id !== action.payload);
+      })
+      .addCase(updateContactThunk.fulfilled, (state, action) => {
+        const index = state.items.findIndex(
+          (contact) => contact.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
       })
       .addMatcher(
         isAnyOf(
