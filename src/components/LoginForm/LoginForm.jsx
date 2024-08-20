@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
 import { loginThunk } from "../../redux/auth/operations";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import style from "./LoginForm.module.css";
 import { Form, Formik, Field, ErrorMessage } from "formik";
@@ -9,6 +9,8 @@ import { Form, Formik, Field, ErrorMessage } from "formik";
 const LoginForm = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const navigate = useNavigate();
+  /*  localStorage.setItem('authToken', data.token); */
   const initialValues = {
     email: "",
     password: "",
@@ -18,6 +20,7 @@ const LoginForm = () => {
     dispatch(loginThunk(values));
     // Скидаємо форму після відправки
     options.resetForm();
+    navigate("/contacts");
   };
 
   // Схема валідації для форми за допомогою Yup

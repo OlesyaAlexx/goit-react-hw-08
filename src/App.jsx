@@ -4,7 +4,7 @@ import { useEffect, lazy, Suspense } from "react";
 import { refreshThunk } from "./redux/auth/operations";
 import { selectIsRefreshing } from "./redux/auth/selectors";
 import { PrivateRoute } from "./routes/PrivateRoute";
-import { PablicRoute } from "./routes/PablicRoute";
+import { PublicRoute } from "./routes/PublicRoute";
 import Loader from "./components/Loader/Loader";
 import Layout from "./components/Layout/Layout";
 import { Route, Routes } from "react-router-dom";
@@ -19,7 +19,7 @@ const NotFoundPage = lazy(() => import("./pages/NotFoundPage/NotFoundPage"));
 
 // Створюємо головний компонент App
 const App = () => {
-  const { isRefreshing } = useSelector(selectIsRefreshing);
+  const isRefreshing = useSelector(selectIsRefreshing);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(refreshThunk());
@@ -44,17 +44,17 @@ const App = () => {
           <Route
             path="register"
             element={
-              <PablicRoute>
+              <PublicRoute>
                 <RegistrationPage />
-              </PablicRoute>
+              </PublicRoute>
             }
           />
           <Route
             path="login"
             element={
-              <PablicRoute>
+              <PublicRoute>
                 <LoginPage />
-              </PablicRoute>
+              </PublicRoute>
             }
           />
           <Route path="*" element={<NotFoundPage />} />

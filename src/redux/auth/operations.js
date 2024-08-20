@@ -7,6 +7,7 @@ export const registerThunk = createAsyncThunk(
     try {
       const { data } = await goitAPI.post("users/signup", credentials);
       setToken(data.token);
+      localStorage.setItem("authToken", data.token); // Зберігаємо токен
       return data;
     } catch (error) {
       console.error("Error during registration:", error.response?.data);
@@ -22,6 +23,7 @@ export const loginThunk = createAsyncThunk(
       //Запит до сервера:
       const { data } = await goitAPI.post("users/login", credentials);
       setToken(data.token);
+      localStorage.setItem("authToken", data.token); // Зберігаємо токен
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -33,9 +35,9 @@ export const logoutThunk = createAsyncThunk(
   "auth/logout",
   async (_, thunkAPI) => {
     try {
-      //Запит до сервера:
       await goitAPI.post("/users/logout");
-      clearToken();
+      clearToken(); // Очищення заголовка
+      localStorage.removeItem("authToken"); // Видалення токена з localStorage
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -45,19 +47,19 @@ export const logoutThunk = createAsyncThunk(
 export const refreshThunk = createAsyncThunk(
   "auth/refresh",
   async (_, thunkAPI) => {
-    //Отримуємо токен з локал сторейдж localstoredge
-    const savedToken = thunkAPI.getState().auth.token;
-
-    //Якщо немає збереженого токена зупиняємо операцію
-    if (savedToken === null) {
-      return thunkAPI.rejectWithValue("Token is not exist!");
+    const savedToken = localStorage.getItem("authToken");
+    if (!savedToken) {
+      return thunkAPI.rejectWithValue("Token is missing");
     }
+
     try {
-      setToken(savedToken);
-      //Запит до сервера:
       const { data } = await goitAPI.get("/users/current");
       return data;
     } catch (error) {
+      console.error(
+        "Error fetching user data:",
+        error.response ? error.response.data : error.message
+      );
       return thunkAPI.rejectWithValue(error.message);
     }
   }
