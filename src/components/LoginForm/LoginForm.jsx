@@ -10,7 +10,6 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const navigate = useNavigate();
-  /*  localStorage.setItem('authToken', data.token); */
   const initialValues = {
     email: "",
     password: "",
